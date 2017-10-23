@@ -21,9 +21,6 @@ func hullGeom(coords []*geom.Point) geom.Geometry {
 	return g
 }
 
-func linear_coords(wkt string) []*geom.Point{
-	return geom.NewLineStringFromWKT(wkt).Coordinates()
-}
 
 func create_hulls(indxs [][]int, coords []*geom.Point) []*node.Node {
 	poly := pln.New(coords)

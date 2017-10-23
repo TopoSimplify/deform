@@ -6,7 +6,7 @@ import (
 )
 
 //select contiguous candidates
-func  _contiguous_candidates(self lnr.Linear, a, b *node.Node) []*node.Node {
+func contiguousCandidates(self lnr.Linear, a, b *node.Node) []*node.Node {
 	var selection = make([]*node.Node, 0)
 	// compute sidedness relation between contiguous hulls to avoid hull flip
 	hulls := node.NewNodes().Extend(a, b).Sort()

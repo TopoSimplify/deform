@@ -12,16 +12,16 @@ func  SelectFeatureClass(self lnr.Linear, hulldb *rtree.RTree, hull *node.Node) 
 	var n int
 	var inters, contig bool
 	var seldict   = make(map[[2]int]*node.Node, 0)
-	var ctx_hulls = knn.FindNodeNeighbours(hulldb, hull, knn.EpsilonDist)
+	var ctxHulls = knn.FindNodeNeighbours(hulldb, hull, knn.EpsilonDist)
 
 	// for each item in the context_geom list
-	for _, cn := range ctx_hulls {
+	for _, cn := range ctxHulls {
 		n = 0
 		h := castAsNode(cn)
 
-		var same_feature = isSame(hull.Instance,h.Instance)
+		var sameFeature = isSame(hull.Instance,h.Instance)
 		// find which item to deform against current hull
-		if same_feature { // check for contiguity
+		if sameFeature { // check for contiguity
 			inters, contig, n = node.IsContiguous(hull, h)
 		} else {
 			// contiguity is by default false for different features
@@ -42,9 +42,9 @@ func  SelectFeatureClass(self lnr.Linear, hulldb *rtree.RTree, hull *node.Node) 
 
 		var sels = make([]*node.Node, 0)
 		if contig && n > 1 { // contiguity with overlap greater than a vertex
-			sels = _contiguous_candidates(self, hull, h)
+			sels = contiguousCandidates(self, hull, h)
 		} else if !contig {
-			sels = _non_contiguous_candidates(self, hull, h)
+			sels = nonContiguousCandidates(self, hull, h)
 		}
 
 		// add candidate deformation hulls to selection list
