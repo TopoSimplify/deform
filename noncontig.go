@@ -10,8 +10,8 @@ func nonContiguousCandidates(self lnr.Linear, a, b *node.Node) []*node.Node {
 	var aseg = a.Segment()
 	var bseg = b.Segment()
 
-	var aln = a.SubPolyline()
-	var bln = b.SubPolyline()
+	var aln = a.Polyline
+	var bln = b.Polyline
 
 	var asegGeom = aseg.Segment
 	var bsegGeom = bseg.Segment

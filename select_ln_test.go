@@ -56,7 +56,7 @@ func TestDeform(t *testing.T) {
 			if j == -1 {
 				j = n - 1
 			}
-			h := node.New(polyline, rng.NewRange(i, j),  dp.NodeGeometry)
+			h := node.NewFromPolyline(polyline, rng.NewRange(i, j),  dp.NodeGeometry)
 			hulls = append(hulls, h)
 		}
 
