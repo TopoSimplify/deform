@@ -47,10 +47,10 @@ func TestDeform(t *testing.T) {
 			"LINESTRING ( 730 490, 730 520, 750 550, 770 590, 780 630, 760 660, 780 680, 860 690, 910 690, 930 650, 930 610, 960 580, 960 560, 960 540, 940 510, 910 490, 900 500, 900 560, 870 550, 870 520, 850 500, 830 500, 800 480, 740 460, 710 470, 670 500, 660 470, 670 440, 700 420, 730 400, 860 390, 890 390, 910 420 )"},
 	}
 
-	create_hulls_db_test := func(ranges [][]int, coords []*geom.Point) ([]*node.Node, *rtree.RTree) {
-		n := len(coords)
-		polyline := pln.New(coords)
-		hulls := []*node.Node{}
+	var createHullsDbTest = func(ranges [][]int, coordinates []*geom.Point) ([]*node.Node, *rtree.RTree) {
+		var n = len(coordinates)
+		var polyline = pln.New(coordinates)
+		var hulls = []*node.Node{}
 		for _, r := range ranges {
 			i, j := r[0], r[len(r)-1]
 			if j == -1 {
@@ -60,13 +60,13 @@ func TestDeform(t *testing.T) {
 			hulls = append(hulls, h)
 		}
 
-		hulldb := rtree.NewRTree(8)
+		var hullDB = rtree.NewRTree(8)
 		boxes := make([]rtree.BoxObj, len(hulls))
 		for i, v := range hulls {
 			boxes[i] = v
 		}
-		hulldb.Load(boxes)
-		return hulls, hulldb
+		hullDB.Load(boxes)
+		return hulls, hullDB
 	}
 
 	g.Describe("hull deformation", func() {
@@ -81,9 +81,7 @@ func TestDeform(t *testing.T) {
 			DirRelation:            false,
 		}
 
-		var cdp = &dp.DouglasPeucker{
-				Opts: options, ScoreFn: offset.MaxOffset,
-			}
+		var cdp = &dp.DouglasPeucker{Opts: options, Score: offset.MaxOffset}
 
 		g.It("should test selection of hulls for deformation", func() {
 			g.Timeout(60 * time.Minute)
@@ -100,7 +98,7 @@ func TestDeform(t *testing.T) {
 			for _, o := range wkt_dat {
 				ranges, q, expects, wkt := o.ranges, o.q, o.expects, o.wkt
 				coords := geom.NewLineStringFromWKT(wkt).Coordinates()
-				hulls, hulldb := create_hulls_db_test(ranges, coords)
+				hulls, hulldb := createHullsDbTest(ranges, coords)
 
 				query := hulls[q]
 

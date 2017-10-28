@@ -8,11 +8,11 @@ import (
 )
 
 //find context_geom deformable hulls
-func  SelectFeatureClass(self lnr.Linear, hulldb *rtree.RTree, hull *node.Node) []*node.Node {
+func  SelectFeatureClass(self lnr.Linear, hullDB *rtree.RTree, hull *node.Node) []*node.Node {
 	var n int
 	var inters, contig bool
-	var seldict   = make(map[[2]int]*node.Node, 0)
-	var ctxHulls = knn.FindNodeNeighbours(hulldb, hull, knn.EpsilonDist)
+	var dict = make(map[[2]int]*node.Node, 0)
+	var ctxHulls = knn.FindNodeNeighbours(hullDB, hull, knn.EpsilonDist)
 
 	// for each item in the context_geom list
 	for _, cn := range ctxHulls {
@@ -26,11 +26,11 @@ func  SelectFeatureClass(self lnr.Linear, hulldb *rtree.RTree, hull *node.Node) 
 		} else {
 			// contiguity is by default false for different features
 			contig = false
-			ga, gb := hull.Geom, h.Geom
+			var ga, gb = hull.Geom, h.Geom
 
 			inters = ga.Intersects(gb)
 			if inters {
-				interpts := ga.Intersection(gb)
+				var interpts = ga.Intersection(gb)
 				inters = len(interpts) > 0
 				n = len(interpts)
 			}
@@ -49,12 +49,12 @@ func  SelectFeatureClass(self lnr.Linear, hulldb *rtree.RTree, hull *node.Node) 
 
 		// add candidate deformation hulls to selection list
 		for _, s := range sels {
-			seldict[s.Range.AsArray()] = s
+			dict[s.Range.AsArray()] = s
 		}
 	}
 
 	var items = make([]*node.Node, 0)
-	for _, v := range seldict {
+	for _, v := range dict {
 		items = append(items, v)
 	}
 	return items
