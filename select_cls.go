@@ -1,14 +1,14 @@
 package deform
 
 import (
-	"simplex/lnr"
-	"simplex/node"
 	"simplex/knn"
+	"simplex/node"
+	"simplex/opts"
 	"github.com/intdxdt/rtree"
 )
 
 //find context_geom deformable hulls
-func  SelectFeatureClass(self lnr.Linear, hullDB *rtree.RTree, hull *node.Node) []*node.Node {
+func SelectFeatureClass(options *opts.Opts, hullDB *rtree.RTree, hull *node.Node) []*node.Node {
 	var n int
 	var inters, contig bool
 	var dict = make(map[[2]int]*node.Node, 0)
@@ -19,7 +19,7 @@ func  SelectFeatureClass(self lnr.Linear, hullDB *rtree.RTree, hull *node.Node) 
 		n = 0
 		h := castAsNode(cn)
 
-		var sameFeature = isSame(hull.Instance,h.Instance)
+		var sameFeature = isSame(hull.Instance, h.Instance)
 		// find which item to deform against current hull
 		if sameFeature { // check for contiguity
 			inters, contig, n = node.IsContiguous(hull, h)
@@ -42,9 +42,9 @@ func  SelectFeatureClass(self lnr.Linear, hullDB *rtree.RTree, hull *node.Node) 
 
 		var sels = make([]*node.Node, 0)
 		if contig && n > 1 { // contiguity with overlap greater than a vertex
-			sels = contiguousCandidates(self, hull, h)
+			sels = contiguousCandidates(hull, h)
 		} else if !contig {
-			sels = nonContiguousCandidates(self, hull, h)
+			sels = nonContiguousCandidates(options, hull, h)
 		}
 
 		// add candidate deformation hulls to selection list

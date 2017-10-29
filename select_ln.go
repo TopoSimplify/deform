@@ -2,13 +2,13 @@ package deform
 
 import (
 	"simplex/knn"
-	"simplex/lnr"
+	"simplex/opts"
 	"simplex/node"
 	"github.com/intdxdt/rtree"
 )
 
 //find context deformation list
-func Select(self lnr.Linear, hulldb *rtree.RTree, hull *node.Node) []*node.Node {
+func Select(options *opts.Opts, hulldb *rtree.RTree, hull *node.Node) []*node.Node {
 	var seldict = make(map[[2]int]*node.Node, 0)
 	var ctxHulls = knn.FindNodeNeighbours(hulldb, hull, knn.EpsilonDist)
 
@@ -24,9 +24,9 @@ func Select(self lnr.Linear, hulldb *rtree.RTree, hull *node.Node) []*node.Node 
 
 		sels := make([]*node.Node, 0)
 		if contig && n > 1 { //contiguity with overlap greater than a vertex
-			sels = contiguousCandidates(self, hull, h)
+			sels = contiguousCandidates(hull, h)
 		} else if !contig {
-			sels = nonContiguousCandidates(self, hull, h)
+			sels = nonContiguousCandidates(options, hull, h)
 		}
 
 		// add candidate deformation hulls to selection list
@@ -41,4 +41,3 @@ func Select(self lnr.Linear, hulldb *rtree.RTree, hull *node.Node) []*node.Node 
 	}
 	return items
 }
-

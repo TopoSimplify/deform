@@ -1,12 +1,12 @@
 package deform
 
 import (
-	"simplex/lnr"
 	"simplex/node"
+	"simplex/opts"
 )
 
 //select non-contiguous candidates
-func nonContiguousCandidates(self lnr.Linear, a, b *node.Node) []*node.Node {
+func nonContiguousCandidates(options *opts.Opts, a, b *node.Node) []*node.Node {
 	var aseg = a.Segment()
 	var bseg = b.Segment()
 
@@ -44,7 +44,7 @@ func nonContiguousCandidates(self lnr.Linear, a, b *node.Node) []*node.Node {
 		for _, ptln := range ptLns {
 			for _, ptseg := range atSeg {
 				delta := ptln.Distance(ptseg)
-				if delta > self.Options().RelaxDist {
+				if delta > options.RelaxDist {
 					addToSelection(&selection, a, b)
 					return selection
 				}

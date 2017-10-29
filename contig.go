@@ -1,12 +1,11 @@
 package deform
 
 import (
-	"simplex/lnr"
 	"simplex/node"
 )
 
 //select contiguous candidates
-func contiguousCandidates(self lnr.Linear, a, b *node.Node) []*node.Node {
+func contiguousCandidates(a, b *node.Node) []*node.Node {
 	var selection = make([]*node.Node, 0)
 	// compute sidedness relation between contiguous hulls to avoid hull flip
 	hulls := node.NewNodes().Extend(a, b).Sort()

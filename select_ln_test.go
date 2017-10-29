@@ -102,7 +102,7 @@ func TestDeform(t *testing.T) {
 
 				query := hulls[q]
 
-				slns := Select(cdp, hulldb, query)
+				slns := Select(cdp.Options(), hulldb, query)
 				//slns = select_hulls_to_deform(ha, hb, opts)
 				if len(slns) != len(expects) {
 					fmt.Println(slns)
