@@ -8,9 +8,9 @@ import (
 )
 
 //find context deformation list
-func Select(options *opts.Opts, hulldb *rtree.RTree, hull *node.Node) []*node.Node {
-	var seldict = make(map[[2]int]*node.Node, 0)
-	var ctxHulls = knn.FindNodeNeighbours(hulldb, hull, knn.EpsilonDist)
+func Select(options *opts.Opts, hullDB *rtree.RTree, hull *node.Node) []*node.Node {
+	var dict = make(map[[2]int]*node.Node, 0)
+	var ctxHulls = knn.FindNodeNeighbours(hullDB, hull, knn.EpsilonDist)
 
 	// for each item in the context list
 	for _, cn := range ctxHulls {
@@ -22,21 +22,21 @@ func Select(options *opts.Opts, hulldb *rtree.RTree, hull *node.Node) []*node.No
 			continue
 		}
 
-		sels := make([]*node.Node, 0)
+		var selections = make([]*node.Node, 0)
 		if contig && n > 1 { //contiguity with overlap greater than a vertex
-			sels = contiguousCandidates(hull, h)
+			selections = contiguousCandidates(hull, h)
 		} else if !contig {
-			sels = nonContiguousCandidates(options, hull, h)
+			selections = nonContiguousCandidates(options, hull, h)
 		}
 
 		// add candidate deformation hulls to selection list
-		for _, s := range sels {
-			seldict[s.Range.AsArray()] = s
+		for _, s := range selections {
+			dict[s.Range.AsArray()] = s
 		}
 	}
 
 	var items = make([]*node.Node, 0)
-	for _, v := range seldict {
+	for _, v := range dict {
 		items = append(items, v)
 	}
 	return items

@@ -17,7 +17,7 @@ import (
 
 func TestDeform(t *testing.T) {
 	g := goblin.Goblin(t)
-	var wkt_dat = []struct {
+	var wktDat = []struct {
 		ranges  [][]int
 		q       int
 		expects []int
@@ -95,7 +95,7 @@ func TestDeform(t *testing.T) {
 				}
 				return bln
 			}
-			for _, o := range wkt_dat {
+			for _, o := range wktDat {
 				ranges, q, expects, wkt := o.ranges, o.q, o.expects, o.wkt
 				coords := geom.NewLineStringFromWKT(wkt).Coordinates()
 				hulls, hulldb := createHullsDbTest(ranges, coords)

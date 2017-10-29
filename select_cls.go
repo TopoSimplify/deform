@@ -17,8 +17,7 @@ func SelectFeatureClass(options *opts.Opts, hullDB *rtree.RTree, hull *node.Node
 	// for each item in the context_geom list
 	for _, cn := range ctxHulls {
 		n = 0
-		h := castAsNode(cn)
-
+		var h = castAsNode(cn)
 		var sameFeature = isSame(hull.Instance, h.Instance)
 		// find which item to deform against current hull
 		if sameFeature { // check for contiguity
