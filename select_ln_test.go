@@ -13,6 +13,7 @@ import (
 	"github.com/franela/goblin"
 	"github.com/intdxdt/rtree"
 	"github.com/intdxdt/geom"
+	"simplex/db"
 )
 
 func TestDeform(t *testing.T) {
@@ -47,7 +48,7 @@ func TestDeform(t *testing.T) {
 			"LINESTRING ( 730 490, 730 520, 750 550, 770 590, 780 630, 760 660, 780 680, 860 690, 910 690, 930 650, 930 610, 960 580, 960 560, 960 540, 940 510, 910 490, 900 500, 900 560, 870 550, 870 520, 850 500, 830 500, 800 480, 740 460, 710 470, 670 500, 660 470, 670 440, 700 420, 730 400, 860 390, 890 390, 910 420 )"},
 	}
 
-	var createHullsDbTest = func(ranges [][]int, coordinates []*geom.Point) ([]*node.Node, *rtree.RTree) {
+	var createHullsDbTest = func(ranges [][]int, coordinates []*geom.Point) ([]*node.Node, *db.DB) {
 		var n = len(coordinates)
 		var polyline = pln.New(coordinates)
 		var hulls = []*node.Node{}
@@ -60,7 +61,7 @@ func TestDeform(t *testing.T) {
 			hulls = append(hulls, h)
 		}
 
-		var hullDB = rtree.NewRTree(8)
+		var hullDB = db.NewDB(8)
 		boxes := make([]rtree.BoxObj, len(hulls))
 		for i, v := range hulls {
 			boxes[i] = v
