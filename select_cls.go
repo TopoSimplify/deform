@@ -4,11 +4,11 @@ import (
     "simplex/knn"
     "simplex/node"
     "simplex/opts"
-    "simplex/db"
+    "github.com/intdxdt/rtree"
 )
 
 //find context_geom deformable hulls
-func SelectFeatureClass(options *opts.Opts, hullDB *db.DB, hull *node.Node) []*node.Node {
+func SelectFeatureClass(options *opts.Opts, hullDB *rtree.RTree, hull *node.Node) []*node.Node {
     var n int
     var inters, contig bool
     var dict = make(map[[2]int]*node.Node, 0)

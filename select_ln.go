@@ -1,14 +1,14 @@
 package deform
 
 import (
-    "simplex/db"
     "simplex/knn"
     "simplex/opts"
     "simplex/node"
+    "github.com/intdxdt/rtree"
 )
 
 //find context deformation list
-func Select(options *opts.Opts, hullDB *db.DB, hull *node.Node) []*node.Node {
+func Select(options *opts.Opts, hullDB *rtree.RTree, hull *node.Node) []*node.Node {
     var dict = make(map[[2]int]*node.Node, 0)
     var ctxHulls = knn.FindNodeNeighbours(hullDB, hull, knn.EpsilonDist)
 

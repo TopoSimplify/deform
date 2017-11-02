@@ -7,7 +7,7 @@ import (
     "simplex/node"
     "simplex/ctx"
     "simplex/dp"
-    "simplex/db"
+    "github.com/intdxdt/rtree"
     "github.com/intdxdt/geom"
 )
 
@@ -35,8 +35,8 @@ func createNodes(indxs [][]int, coords []*geom.Point) []*node.Node {
 }
 
 //hull db
-func hullsDB(ns []*node.Node) *db.DB {
-    database := db.NewDB(8)
+func hullsDB(ns []*node.Node) *rtree.RTree {
+    database := rtree.NewRTree(8)
     for _, n := range ns {
         database.Insert(n)
     }
