@@ -22,16 +22,19 @@ func Select(options *opts.Opts, hullDB *rtree.RTree, hull *node.Node) []*node.No
             continue
         }
 
-        var selections = make([]*node.Node, 0)
+        var sa, sb *node.Node
         if contig && n > 1 { //contiguity with overlap greater than a vertex
-            selections = contiguousCandidates(hull, h)
+            sa, sb = contiguousCandidates(hull, h)
         } else if !contig {
-            selections = nonContiguousCandidates(options, hull, h)
+            sa, sb = nonContiguousCandidates(options, hull, h)
         }
 
         // add candidate deformation hulls to selection list
-        for _, s := range selections {
-            dict[s.Range.AsArray()] = s
+        if sa != nil  {
+            dict[sa.Range.AsArray()] = sa
+        }
+        if sb != nil  {
+            dict[sb.Range.AsArray()] = sb
         }
     }
 

@@ -6,7 +6,7 @@ import (
 )
 
 //select non-contiguous candidates
-func nonContiguousCandidates(options *opts.Opts, a, b *node.Node) []*node.Node {
+func nonContiguousCandidates(options *opts.Opts, a, b *node.Node) (*node.Node, *node.Node) {
 	var aseg = a.Segment()
 	var bseg = b.Segment()
 
@@ -23,12 +23,12 @@ func nonContiguousCandidates(options *opts.Opts, a, b *node.Node) []*node.Node {
 	var asegIntersBln = asegGeom.Intersects(blnGeom)
 	var bsegIntersAln = bsegGeom.Intersects(alnGeom)
 	var alnIntersBln = alnGeom.Intersects(blnGeom)
-	var selection = []*node.Node{}
+	var sa, sb *node.Node
 
 	if asegIntersBseg && asegIntersBln && (!alnIntersBln) {
-		addToSelection(&selection, a)
+		sa = a
 	} else if asegIntersBseg && bsegIntersAln && (!alnIntersBln) {
-		addToSelection(&selection, b)
+		sb =  b
 	} else if alnIntersBln {
 		// find out whether is a shared vertex or overlap
 		// is aseg inter bset  --- dist --- aln inter bln > relax dist
@@ -37,19 +37,17 @@ func nonContiguousCandidates(options *opts.Opts, a, b *node.Node) []*node.Node {
 
 		// if segs are disjoint but lines intersect, deform a&b
 		if len(atSeg) == 0 && len(ptLns) > 0 {
-			addToSelection(&selection, a, b)
-			return selection
+			return a, b
 		}
 
 		for _, ptln := range ptLns {
 			for _, ptseg := range atSeg {
 				delta := ptln.Distance(ptseg)
 				if delta > options.RelaxDist {
-					addToSelection(&selection, a, b)
-					return selection
+					return a, b
 				}
 			}
 		}
 	}
-	return selection
+	return sa, sb
 }
