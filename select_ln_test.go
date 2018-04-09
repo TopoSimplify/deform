@@ -75,7 +75,7 @@ func TestDeform(t *testing.T) {
 			Threshold:              50.0,
 			MinDist:                20.0,
 			RelaxDist:              30.0,
-			KeepSelfIntersects:     true,
+			PlanarSelf:             true,
 			AvoidNewSelfIntersects: true,
 			GeomRelation:           true,
 			DistRelation:           false,
