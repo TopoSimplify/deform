@@ -1,9 +1,9 @@
 package deform
 
 import (
-    "simplex/knn"
-    "simplex/node"
-    "simplex/opts"
+    "github.com/TopoSimplify/knn"
+    "github.com/TopoSimplify/node"
+    "github.com/TopoSimplify/opts"
     "github.com/intdxdt/rtree"
 )
 

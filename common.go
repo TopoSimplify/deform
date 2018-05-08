@@ -1,8 +1,8 @@
 package deform
 
 import (
-	"simplex/lnr"
-	"simplex/node"
+	"github.com/TopoSimplify/lnr"
+	"github.com/TopoSimplify/node"
 )
 
 func isSame(a, b lnr.Linegen) bool {

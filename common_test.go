@@ -2,13 +2,13 @@ package deform
 
 import (
 	"fmt"
-	"simplex/pln"
-	"simplex/rng"
-	"simplex/node"
-	"simplex/ctx"
-	"simplex/dp"
-	"github.com/intdxdt/rtree"
 	"github.com/intdxdt/geom"
+	"github.com/intdxdt/rtree"
+	"github.com/TopoSimplify/pln"
+	"github.com/TopoSimplify/rng"
+	"github.com/TopoSimplify/node"
+	"github.com/TopoSimplify/ctx"
+	"github.com/TopoSimplify/dp"
 )
 
 func DebugPrintNodes(ns []*node.Node) {

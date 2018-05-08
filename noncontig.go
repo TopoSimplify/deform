@@ -1,8 +1,8 @@
 package deform
 
 import (
-	"simplex/node"
-	"simplex/opts"
+	"github.com/TopoSimplify/opts"
+	"github.com/TopoSimplify/node"
 )
 
 //select non-contiguous candidates

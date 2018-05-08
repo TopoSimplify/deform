@@ -1,7 +1,7 @@
 package deform
 
 import (
-	"simplex/node"
+	"github.com/TopoSimplify/node"
 )
 
 //select contiguous candidates

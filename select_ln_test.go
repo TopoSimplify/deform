@@ -4,15 +4,15 @@ import (
 	"time"
 	"fmt"
 	"testing"
-	"simplex/dp"
-	"simplex/pln"
-	"simplex/rng"
-	"simplex/opts"
-	"simplex/offset"
-	"simplex/node"
-	"github.com/franela/goblin"
-	"github.com/intdxdt/rtree"
 	"github.com/intdxdt/geom"
+	"github.com/intdxdt/rtree"
+	"github.com/franela/goblin"
+	"github.com/TopoSimplify/dp"
+	"github.com/TopoSimplify/pln"
+	"github.com/TopoSimplify/rng"
+	"github.com/TopoSimplify/opts"
+	"github.com/TopoSimplify/offset"
+	"github.com/TopoSimplify/node"
 )
 
 func TestDeform(t *testing.T) {

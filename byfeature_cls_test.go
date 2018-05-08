@@ -3,9 +3,9 @@ package deform
 import (
 	"time"
 	"testing"
-	"simplex/opts"
-	"simplex/dp"
-	"simplex/offset"
+	"github.com/TopoSimplify/opts"
+	"github.com/TopoSimplify/dp"
+	"github.com/TopoSimplify/offset"
 	"github.com/franela/goblin"
 )
 
