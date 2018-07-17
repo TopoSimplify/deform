@@ -28,7 +28,7 @@ func nonContiguousCandidates(options *opts.Opts, a, b *node.Node) (*node.Node, *
 	if asegIntersBseg && asegIntersBln && (!alnIntersBln) {
 		sa = a
 	} else if asegIntersBseg && bsegIntersAln && (!alnIntersBln) {
-		sb =  b
+		sb = b
 	} else if alnIntersBln {
 		// find out whether is a shared vertex or overlap
 		// is aseg inter bset  --- dist --- aln inter bln > relax dist
@@ -37,17 +37,19 @@ func nonContiguousCandidates(options *opts.Opts, a, b *node.Node) (*node.Node, *
 
 		// if segs are disjoint but lines intersect, deform a&b
 		if len(atSeg) == 0 && len(ptLns) > 0 {
-			return a, b
-		}
-
-		for _, ptln := range ptLns {
-			for _, ptseg := range atSeg {
-				delta := ptln.Distance(ptseg)
-				if delta > options.RelaxDist {
-					return a, b
+			sa, sb = a, b
+		} else {
+			outer: for i := range ptLns {
+				for j := range atSeg {
+					delta := ptLns[i].Distance(atSeg[j])
+					if delta > options.RelaxDist {
+						sa, sb = a, b
+						break outer
+					}
 				}
 			}
 		}
 	}
+
 	return sa, sb
 }

@@ -14,10 +14,10 @@ func Select(options *opts.Opts, hullDB *rtree.RTree, hull *node.Node) []*node.No
 	var ctxHulls = knn.FindNodeNeighbours(hullDB, hull, knn.EpsilonDist)
 
 	// for each item in the context list
-	for _, cn := range ctxHulls {
+	for i := range ctxHulls {
 		// find which item to deform against current hull
-		h := castAsNode(cn)
-		inters, contig, n := node.IsContiguous(hull, h)
+		var h = ctxHulls[i].Object.(*node.Node)
+		var inters, contig, n = node.IsContiguous(hull, h)
 
 		if !inters {
 			continue
@@ -39,7 +39,7 @@ func Select(options *opts.Opts, hullDB *rtree.RTree, hull *node.Node) []*node.No
 		}
 	}
 
-	var items = make([]*node.Node, 0)
+	var items = make([]*node.Node, 0, len(dict))
 	for _, v := range dict {
 		items = append(items, v)
 	}
