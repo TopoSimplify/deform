@@ -64,7 +64,7 @@ func TestDeform(t *testing.T) {
 		var hullDB = rtree.NewRTree()
 		boxes := make([]*rtree.Obj, 0,  len(hulls))
 		for i := range hulls {
-			boxes = append(boxes, rtree.Object(i, hulls[i].Geometry.BBox(), hulls[i]))
+			boxes = append(boxes, rtree.Object(i, hulls[i].Geometry.Bounds(), hulls[i]))
 		}
 		hullDB.Load(boxes)
 		return hulls, hullDB

@@ -32,7 +32,7 @@ func TestSelectFeatureClass(t *testing.T) {
 
 			for i := range hulls {
 				hulls[i].Instance = inst
-				db.Insert(rtree.Object(i , hulls[i].Geometry.BBox(), hulls[i]))
+				db.Insert(rtree.Object(i , *hulls[i].Geometry.BBox(), hulls[i]))
 			}
 
 			var q1 = hulls[0]
@@ -41,7 +41,7 @@ func TestSelectFeatureClass(t *testing.T) {
 
 			for i := range hulls {
 				hulls[i].Instance = inst
-				db.Insert(rtree.Object(i , hulls[i].Geometry.BBox(), hulls[i]))
+				db.Insert(rtree.Object(i , *hulls[i].Geometry.BBox(), hulls[i]))
 			}
 			var q2 = hulls[0]
 
@@ -76,7 +76,7 @@ func TestSelectFeatureClass(t *testing.T) {
 
 			for i := range hulls {
 				hulls[i].Instance = inst1
-				db.Insert(rtree.Object(i , hulls[i].Geometry.BBox(), hulls[i]))
+				db.Insert(rtree.Object(i , hulls[i].Geometry.Bounds(), hulls[i]))
 			}
 
 			var q1 = hulls[0]
@@ -86,7 +86,7 @@ func TestSelectFeatureClass(t *testing.T) {
 
 			for i := range hulls {
 				hulls[i].Instance = inst1
-				db.Insert(rtree.Object(i , hulls[i].Geometry.BBox(), hulls[i]))
+				db.Insert(rtree.Object(i , hulls[i].Geometry.Bounds(), hulls[i]))
 			}
 			var q2 = hulls[0]
 
@@ -95,7 +95,7 @@ func TestSelectFeatureClass(t *testing.T) {
 
 			for i := range hulls {
 				hulls[i].Instance = inst1
-				db.Insert(rtree.Object(i , hulls[i].Geometry.BBox(), hulls[i]))
+				db.Insert(rtree.Object(i , hulls[i].Geometry.Bounds(), hulls[i]))
 			}
 			var q3 = hulls[0]
 
