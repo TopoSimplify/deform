@@ -38,7 +38,7 @@ func createNodes(indxs [][]int, coords []geom.Point) []*node.Node {
 //hull db
 func hullsDB(ns []*node.Node) *rtree.RTree {
 	database := rtree.NewRTree()
-	for i:= range ns {
+	for i := range ns {
 		database.Insert(rtree.Object(i, ns[i].Bounds(), ns[i]))
 	}
 	return database
