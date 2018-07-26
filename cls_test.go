@@ -7,7 +7,7 @@ import (
 	"github.com/TopoSimplify/dp"
 	"github.com/TopoSimplify/offset"
 	"github.com/franela/goblin"
-	"github.com/intdxdt/rtree"
+	"github.com/TopoSimplify/hdb"
 )
 
 func TestSelectFeatureClass(t *testing.T) {
@@ -25,15 +25,15 @@ func TestSelectFeatureClass(t *testing.T) {
 				h.Instance = inst
 			}
 
-			var db = hullsDB(hulls)
+			var db = hdb.NewHdb().Load(hulls)
 
 			coords = linearCoords("LINESTRING ( 760 660, 800 620, 800 600, 780 580, 720 580, 700 600 )")
 			hulls = createNodes([][]int{{0, len(coords) - 1}}, coords)
 
 			for i := range hulls {
 				hulls[i].Instance = inst
-				db.Insert(rtree.Object(i , *hulls[i].Geometry.BBox(), hulls[i]))
 			}
+			db.Load(hulls)
 
 			var q1 = hulls[0]
 			coords = linearCoords("LINESTRING ( 680 640, 660 660, 640 700, 660 740, 720 760, 740 780 )")
@@ -41,8 +41,9 @@ func TestSelectFeatureClass(t *testing.T) {
 
 			for i := range hulls {
 				hulls[i].Instance = inst
-				db.Insert(rtree.Object(i , *hulls[i].Geometry.BBox(), hulls[i]))
 			}
+			db.Load(hulls)
+
 			var q2 = hulls[0]
 
 			var selections = SelectFeatureClass(options, db, q1)
@@ -67,7 +68,7 @@ func TestSelectFeatureClass(t *testing.T) {
 				h.Instance = inst0
 			}
 
-			var db = hullsDB(hulls)
+			var db = hdb.NewHdb().Load(hulls)
 
 			coords = linearCoords("LINESTRING ( 760 660, 800 620, 800 600, 780 580, 720 580, 700 600 )")
 			hulls = createNodes([][]int{{0, len(coords) - 1}}, coords)
@@ -76,18 +77,18 @@ func TestSelectFeatureClass(t *testing.T) {
 
 			for i := range hulls {
 				hulls[i].Instance = inst1
-				db.Insert(rtree.Object(i , hulls[i].Geometry.Bounds(), hulls[i]))
 			}
+			db.Load(hulls)
 
 			var q1 = hulls[0]
-
 			coords = linearCoords("LINESTRING ( 680 640, 660 660, 640 700, 660 740, 720 760, 740 780 )")
 			hulls = createNodes([][]int{{0, len(coords) - 1}}, coords)
 
 			for i := range hulls {
 				hulls[i].Instance = inst1
-				db.Insert(rtree.Object(i , hulls[i].Geometry.Bounds(), hulls[i]))
 			}
+			db.Load(hulls)
+
 			var q2 = hulls[0]
 
 			coords = linearCoords("LINESTRING ( 750.5719204078739 667.8504262852285, 731.1163192182406 669.4717263843646, 730.3819045734933 682.6968257108445, 734.5615819289048 700, 740.8441198130572 706.1536411273189, 756.0438082424582 709.5989038379831, 752.801208044186 700, 757.5947734471756 691.9692691038592 )")
@@ -95,8 +96,9 @@ func TestSelectFeatureClass(t *testing.T) {
 
 			for i := range hulls {
 				hulls[i].Instance = inst1
-				db.Insert(rtree.Object(i , hulls[i].Geometry.Bounds(), hulls[i]))
 			}
+			db.Load(hulls)
+
 			var q3 = hulls[0]
 
 			var selections = SelectFeatureClass(options, db, q0)
@@ -115,7 +117,7 @@ func TestSelectFeatureClass(t *testing.T) {
 			//fmt.Println(q1)
 			//fmt.Println(q2)
 		})
-		//
+
 		//g.It("should test fc selection different features", func() {
 		//	g.Timeout(1 * time.Hour)
 		//

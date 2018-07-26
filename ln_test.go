@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"testing"
 	"github.com/intdxdt/geom"
-	"github.com/intdxdt/rtree"
 	"github.com/franela/goblin"
 	"github.com/TopoSimplify/dp"
 	"github.com/TopoSimplify/pln"
@@ -13,6 +12,7 @@ import (
 	"github.com/TopoSimplify/opts"
 	"github.com/TopoSimplify/offset"
 	"github.com/TopoSimplify/node"
+	"github.com/TopoSimplify/hdb"
 )
 
 func TestDeform(t *testing.T) {
@@ -47,7 +47,7 @@ func TestDeform(t *testing.T) {
 			"LINESTRING ( 730 490, 730 520, 750 550, 770 590, 780 630, 760 660, 780 680, 860 690, 910 690, 930 650, 930 610, 960 580, 960 560, 960 540, 940 510, 910 490, 900 500, 900 560, 870 550, 870 520, 850 500, 830 500, 800 480, 740 460, 710 470, 670 500, 660 470, 670 440, 700 420, 730 400, 860 390, 890 390, 910 420 )"},
 	}
 
-	var createHullsDbTest = func(ranges [][]int, coordinates []geom.Point) ([]*node.Node, *rtree.RTree) {
+	var createHullsDbTest = func(ranges [][]int, coordinates []geom.Point) ([]*node.Node, *hdb.Hdb) {
 		var n = len(coordinates)
 		var polyline = pln.New(coordinates)
 		var hulls []*node.Node
@@ -61,13 +61,7 @@ func TestDeform(t *testing.T) {
 			hulls = append(hulls, h)
 		}
 
-		var hullDB = rtree.NewRTree()
-		boxes := make([]*rtree.Obj, 0,  len(hulls))
-		for i := range hulls {
-			boxes = append(boxes, rtree.Object(i, hulls[i].Geometry.Bounds(), hulls[i]))
-		}
-		hullDB.Load(boxes)
-		return hulls, hullDB
+		return hulls, hdb.NewHdb().Load(hulls)
 	}
 
 	g.Describe("hull deformation", func() {

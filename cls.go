@@ -4,20 +4,20 @@ import (
 	"github.com/TopoSimplify/knn"
 	"github.com/TopoSimplify/node"
 	"github.com/TopoSimplify/opts"
-	"github.com/intdxdt/rtree"
+	"github.com/TopoSimplify/hdb"
 )
 
 //find context_geom deformable hulls
-func SelectFeatureClass(options *opts.Opts, hullDB *rtree.RTree, hull *node.Node) []*node.Node {
+func SelectFeatureClass(options *opts.Opts, hullDB *hdb.Hdb, hull *node.Node) []*node.Node {
 	var n int
 	var inters, contig bool
 	var dict = make(map[[2]int]*node.Node, 0)
 	var ctxHulls = knn.FindNodeNeighbours(hullDB, hull, knn.EpsilonDist)
 
 	// for each item in the context_geom list
-	for _, cn := range ctxHulls {
+	for i := range ctxHulls {
 		n = 0
-		var h = cn.Object.(*node.Node)
+		var h = ctxHulls[i]//cn.Object.(*node.Node)
 		var sameFeature = isSame(hull.Instance, h.Instance)
 		// find which item to deform against current hull
 		if sameFeature { // check for contiguity

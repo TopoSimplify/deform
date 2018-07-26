@@ -1,22 +1,22 @@
 package deform
 
 import (
-	"github.com/intdxdt/rtree"
 	"github.com/TopoSimplify/opts"
 	"github.com/TopoSimplify/node"
 	"github.com/TopoSimplify/knn"
+	"github.com/TopoSimplify/hdb"
 )
 
 
 //find context deformation list
-func Select(options *opts.Opts, hullDB *rtree.RTree, hull *node.Node) []*node.Node {
+func Select(options *opts.Opts, hullDB *hdb.Hdb, hull *node.Node) []*node.Node {
 	var dict = make(map[[2]int]*node.Node, 0)
 	var ctxHulls = knn.FindNodeNeighbours(hullDB, hull, knn.EpsilonDist)
 
 	// for each item in the context list
 	for i := range ctxHulls {
 		// find which item to deform against current hull
-		var h = ctxHulls[i].Object.(*node.Node)
+		var h = ctxHulls[i]
 		var inters, contig, n = node.IsContiguous(hull, h)
 
 		if !inters {

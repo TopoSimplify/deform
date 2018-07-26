@@ -3,7 +3,6 @@ package deform
 import (
 	"fmt"
 	"github.com/intdxdt/geom"
-	"github.com/intdxdt/rtree"
 	"github.com/TopoSimplify/pln"
 	"github.com/TopoSimplify/rng"
 	"github.com/TopoSimplify/node"
@@ -35,14 +34,7 @@ func createNodes(indxs [][]int, coords []geom.Point) []*node.Node {
 	return hulls
 }
 
-//hull db
-func hullsDB(ns []*node.Node) *rtree.RTree {
-	database := rtree.NewRTree()
-	for i := range ns {
-		database.Insert(rtree.Object(i, ns[i].Bounds(), ns[i]))
-	}
-	return database
-}
+
 
 //hull geom
 func hullGeom(coords []geom.Point) geom.Geometry {

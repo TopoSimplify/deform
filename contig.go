@@ -11,7 +11,7 @@ func contiguousCandidates(a, b *node.Node) (*node.Node , *node.Node ){
 
 	// all hulls that are simple should be collapsible
 	// if not collapsible -- add to selection for deformation
-	// to reach collapsibility
+	// to reach colapsibility
 	var  sa, sb *node.Node
 	//& the present should not affect the future
 	if !a.Collapsible(b) {
