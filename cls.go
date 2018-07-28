@@ -26,9 +26,9 @@ func SelectFeatureClass(options *opts.Opts, hullDB *hdb.Hdb, hull *node.Node) []
 			// contiguity is by default false for different features
 			contig = false
 
-			inters = hull.Geometry.Intersects(h.Geometry)
+			inters = hull.Geom.Intersects(h.Geom)
 			if inters {
-				var pts = hull.Geometry.Intersection(h.Geometry)
+				var pts = hull.Geom.Intersection(h.Geom)
 				inters = len(pts) > 0
 				n = len(pts)
 			}

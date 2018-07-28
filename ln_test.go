@@ -47,17 +47,17 @@ func TestDeform(t *testing.T) {
 			"LINESTRING ( 730 490, 730 520, 750 550, 770 590, 780 630, 760 660, 780 680, 860 690, 910 690, 930 650, 930 610, 960 580, 960 560, 960 540, 940 510, 910 490, 900 500, 900 560, 870 550, 870 520, 850 500, 830 500, 800 480, 740 460, 710 470, 670 500, 660 470, 670 440, 700 420, 730 400, 860 390, 890 390, 910 420 )"},
 	}
 
-	var createHullsDbTest = func(ranges [][]int, coordinates []geom.Point) ([]*node.Node, *hdb.Hdb) {
+	var createHullsDbTest = func(ranges [][]int, coordinates []geom.Point) ([]node.Node, *hdb.Hdb) {
 		var n = len(coordinates)
 		var polyline = pln.New(coordinates)
-		var hulls []*node.Node
+		var hulls []node.Node
 		for _, r := range ranges {
 			i, j := r[0], r[len(r)-1]
 			if j == -1 {
 				j = n - 1
 			}
 			nr := rng.Range(i, j)
-			h := node.New(polyline.SubCoordinates(nr), nr, dp.NodeGeometry)
+			h := node.CreateNode(polyline.SubCoordinates(nr), nr, dp.NodeGeometry)
 			hulls = append(hulls, h)
 		}
 
@@ -97,14 +97,14 @@ func TestDeform(t *testing.T) {
 
 				query := hulls[q]
 
-				slns := Select(cdp.Options(), hulldb, query)
+				slns := Select(cdp.Options(), hulldb, &query)
 				//slns = select_hulls_to_deform(ha, hb, opts)
 				if len(slns) != len(expects) {
 					fmt.Println(slns)
 				}
 				g.Assert(len(slns)).Equal(len(expects))
 				for _, i := range expects {
-					g.Assert(contains(hulls[i], slns))
+					g.Assert(contains(&hulls[i], slns))
 				}
 			}
 		})
