@@ -13,10 +13,12 @@ import (
 	"github.com/TopoSimplify/offset"
 	"github.com/TopoSimplify/node"
 	"github.com/TopoSimplify/hdb"
+	"github.com/intdxdt/iter"
 )
 
 func TestDeform(t *testing.T) {
-	g := goblin.Goblin(t)
+	var g = goblin.Goblin(t)
+	var id = iter.NewIgen()
 	var wktDat = []struct {
 		ranges  [][]int
 		q       int
@@ -57,7 +59,7 @@ func TestDeform(t *testing.T) {
 				j = n - 1
 			}
 			nr := rng.Range(i, j)
-			h := node.CreateNode(polyline.SubCoordinates(nr), nr, dp.NodeGeometry)
+			h := node.CreateNode(id, polyline.SubCoordinates(nr), nr, dp.NodeGeometry)
 			hulls = append(hulls, h)
 		}
 
