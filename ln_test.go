@@ -14,6 +14,7 @@ import (
 	"github.com/TopoSimplify/node"
 	"github.com/TopoSimplify/hdb"
 	"github.com/intdxdt/iter"
+	"github.com/TopoSimplify/common"
 )
 
 func TestDeform(t *testing.T) {
@@ -49,8 +50,8 @@ func TestDeform(t *testing.T) {
 			"LINESTRING ( 730 490, 730 520, 750 550, 770 590, 780 630, 760 660, 780 680, 860 690, 910 690, 930 650, 930 610, 960 580, 960 560, 960 540, 940 510, 910 490, 900 500, 900 560, 870 550, 870 520, 850 500, 830 500, 800 480, 740 460, 710 470, 670 500, 660 470, 670 440, 700 420, 730 400, 860 390, 890 390, 910 420 )"},
 	}
 
-	var createHullsDbTest = func(ranges [][]int, coordinates []geom.Point) ([]node.Node, *hdb.Hdb) {
-		var n = len(coordinates)
+	var createHullsDbTest = func(ranges [][]int, coordinates geom.Coords) ([]node.Node, *hdb.Hdb) {
+		var n = coordinates.Len()
 		var polyline = pln.New(coordinates)
 		var hulls []node.Node
 		for _, r := range ranges {
@@ -59,7 +60,7 @@ func TestDeform(t *testing.T) {
 				j = n - 1
 			}
 			nr := rng.Range(i, j)
-			h := node.CreateNode(id, polyline.SubCoordinates(nr), nr, dp.NodeGeometry)
+			h := node.CreateNode(id, polyline.SubCoordinates(nr), nr, common.Geometry)
 			hulls = append(hulls, h)
 		}
 
@@ -94,7 +95,7 @@ func TestDeform(t *testing.T) {
 			}
 			for _, o := range wktDat {
 				ranges, q, expects, wkt := o.ranges, o.q, o.expects, o.wkt
-				coords := geom.NewLineStringFromWKT(wkt).Coordinates()
+				coords := geom.NewLineStringFromWKT(wkt).Coordinates
 				hulls, hulldb := createHullsDbTest(ranges, coords)
 
 				query := hulls[q]

@@ -13,11 +13,11 @@ func nonContiguousCandidates(options *opts.Opts, a, b *node.Node) (*node.Node, *
 	var aln = a.Polyline
 	var bln = b.Polyline
 
-	var asegGeom = aseg.Segment
-	var bsegGeom = bseg.Segment
+	var asegGeom = aseg
+	var bsegGeom = bseg
 
-	var alnGeom = aln.Geometry
-	var blnGeom = bln.Geometry
+	var alnGeom = aln.Geometry()
+	var blnGeom = bln.Geometry()
 
 	var asegIntersBseg = asegGeom.Intersects(bsegGeom)
 	var asegIntersBln = asegGeom.Intersects(blnGeom)
