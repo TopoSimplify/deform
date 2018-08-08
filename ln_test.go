@@ -52,7 +52,7 @@ func TestDeform(t *testing.T) {
 
 	var createHullsDbTest = func(ranges [][]int, coordinates geom.Coords) ([]node.Node, *hdb.Hdb) {
 		var n = coordinates.Len()
-		var polyline = pln.New(coordinates)
+		var polyline = pln.CreatePolyline(coordinates)
 		var hulls []node.Node
 		for _, r := range ranges {
 			i, j := r[0], r[len(r)-1]
