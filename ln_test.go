@@ -15,7 +15,6 @@ import (
 	"github.com/TopoSimplify/hdb"
 	"github.com/intdxdt/iter"
 	"github.com/TopoSimplify/common"
-	"github.com/TopoSimplify/cmap"
 )
 
 type testDP struct {
@@ -110,7 +109,6 @@ func TestDeform(t *testing.T) {
 				}
 				return bln
 			}
-			var cache = cmap.NewCacheMap(10)
 			for _, o := range wktDat {
 				var ranges, q, expects, wkt = o.ranges, o.q, o.expects, o.wkt
 				var coords = geom.NewLineStringFromWKT(wkt).Coordinates
@@ -118,7 +116,7 @@ func TestDeform(t *testing.T) {
 
 				var query = hulls[q]
 
-				var slns = Select(cdp.Options(), hulldb, &query, cache)
+				var slns = Select(cdp.Options(), hulldb, &query)
 				//slns = select_hulls_to_deform(ha, hb, opts)
 				if len(slns) != len(expects) {
 					fmt.Println(slns)

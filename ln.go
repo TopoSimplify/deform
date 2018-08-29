@@ -5,12 +5,11 @@ import (
 	"github.com/TopoSimplify/node"
 	"github.com/TopoSimplify/knn"
 	"github.com/TopoSimplify/hdb"
-	"github.com/TopoSimplify/cmap"
 )
 
 
 //find context deformation list
-func Select(options *opts.Opts, hullDB *hdb.Hdb, hull *node.Node, cache *cmap.CacheMap) []*node.Node {
+func Select(options *opts.Opts, hullDB *hdb.Hdb, hull *node.Node) []*node.Node {
 	var n int
 	var h *node.Node
 	var inters, contig bool
@@ -21,10 +20,6 @@ func Select(options *opts.Opts, hullDB *hdb.Hdb, hull *node.Node, cache *cmap.Ca
 	for i := range ctxHulls {
 		// find which item to deform against current hull
 		h = ctxHulls[i]
-		//if cache has key -- continue
-		if cache.HasKey(cmap.CacheKey(hull, h)) {
-			continue
-		}
 
 		inters, contig, n = node.IsContiguous(hull, h)
 

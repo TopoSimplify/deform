@@ -5,12 +5,10 @@ import (
 	"github.com/TopoSimplify/node"
 	"github.com/TopoSimplify/opts"
 	"github.com/TopoSimplify/hdb"
-	"github.com/TopoSimplify/cmap"
 )
 
 //find context_geom deformable hulls
-func SelectFeatureClass(options *opts.Opts, hullDB *hdb.Hdb,
-	hull *node.Node, cache *cmap.CacheMap) []*node.Node {
+func SelectFeatureClass(options *opts.Opts, hullDB *hdb.Hdb, hull *node.Node) []*node.Node {
 	var n int
 	var h *node.Node
 	var inters, contig bool
@@ -21,10 +19,6 @@ func SelectFeatureClass(options *opts.Opts, hullDB *hdb.Hdb,
 	for i := range ctxHulls {
 		n = 0
 		h = ctxHulls[i]
-		//if cache has key -- continue
-		if cache.HasKey(cmap.CacheKey(hull, h)) {
-			continue
-		}
 
 		var sameFeature = isSame(hull.Instance, h.Instance)
 		// find which item to deform against current hull

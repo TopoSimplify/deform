@@ -10,7 +10,6 @@ import (
 	"github.com/TopoSimplify/hdb"
 	"github.com/intdxdt/iter"
 	"github.com/TopoSimplify/common"
-	"github.com/TopoSimplify/cmap"
 )
 
 func TestSelectFeatureClass(t *testing.T) {
@@ -40,12 +39,11 @@ func TestSelectFeatureClass(t *testing.T) {
 			db.Load(hulls)
 
 			var q2 = hulls[0]
-			var cache = cmap.NewCacheMap(4)
 
-			var selections = SelectFeatureClass(options, db, &q1, cache)
+			var selections = SelectFeatureClass(options, db, &q1)
 			g.Assert(len(selections)).Equal(1)
 
-			selections = SelectFeatureClass(options, db, &q2, cache)
+			selections = SelectFeatureClass(options, db, &q2)
 			g.Assert(len(selections)).Equal(0)
 
 		})
@@ -83,18 +81,17 @@ func TestSelectFeatureClass(t *testing.T) {
 			db.Load(hulls)
 
 			var q3 = &hulls[0]
-			var cache = cmap.NewCacheMap(10)
 
-			var selections = SelectFeatureClass(options, db, q0, cache)
+			var selections = SelectFeatureClass(options, db, q0)
 			g.Assert(len(selections)).Equal(1)
 
-			selections = SelectFeatureClass(options, db, q1, cache)
+			selections = SelectFeatureClass(options, db, q1)
 			g.Assert(len(selections)).Equal(1)
 
-			selections = SelectFeatureClass(options, db, q2, cache)
+			selections = SelectFeatureClass(options, db, q2)
 			g.Assert(len(selections)).Equal(0)
 
-			selections = SelectFeatureClass(options, db, q3, cache)
+			selections = SelectFeatureClass(options, db, q3)
 			g.Assert(len(selections)).Equal(0)
 
 			//fmt.Println(q0)
