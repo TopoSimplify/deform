@@ -15,7 +15,23 @@ import (
 	"github.com/TopoSimplify/hdb"
 	"github.com/intdxdt/iter"
 	"github.com/TopoSimplify/common"
+	"github.com/TopoSimplify/cmap"
 )
+
+type testDP struct {
+	id int
+}
+
+func (tdp *testDP) Id() int {
+	return tdp.id
+}
+
+func (tdp *testDP) Options() *opts.Opts {
+	return nil
+}
+func (tdp *testDP) Simple() []int {
+	return nil
+}
 
 func TestDeform(t *testing.T) {
 	var g = goblin.Goblin(t)
@@ -51,6 +67,7 @@ func TestDeform(t *testing.T) {
 	}
 
 	var createHullsDbTest = func(ranges [][]int, coordinates geom.Coords) ([]node.Node, *hdb.Hdb) {
+		var inst = &testDP{0}
 		var n = coordinates.Len()
 		var polyline = pln.CreatePolyline(coordinates)
 		var hulls []node.Node
@@ -60,7 +77,7 @@ func TestDeform(t *testing.T) {
 				j = n - 1
 			}
 			var nr = rng.Range(i, j)
-			var h  = node.CreateNode(id, polyline.SubCoordinates(nr), nr, common.Geometry, nil)
+			var h = node.CreateNode(id, polyline.SubCoordinates(nr), nr, common.Geometry, inst)
 			hulls = append(hulls, h)
 		}
 
@@ -83,7 +100,7 @@ func TestDeform(t *testing.T) {
 
 		g.It("should test selection of hulls for deformation", func() {
 			g.Timeout(60 * time.Minute)
-			contains := func(s *node.Node, slns []*node.Node) bool {
+			var contains = func(s *node.Node, slns []*node.Node) bool {
 				bln := false
 				for _, h := range slns {
 					if s == h {
@@ -93,6 +110,7 @@ func TestDeform(t *testing.T) {
 				}
 				return bln
 			}
+			var cache = cmap.NewCacheMap(10)
 			for _, o := range wktDat {
 				var ranges, q, expects, wkt = o.ranges, o.q, o.expects, o.wkt
 				var coords = geom.NewLineStringFromWKT(wkt).Coordinates
@@ -100,7 +118,7 @@ func TestDeform(t *testing.T) {
 
 				var query = hulls[q]
 
-				var slns = Select(cdp.Options(), hulldb, &query)
+				var slns = Select(cdp.Options(), hulldb, &query, cache)
 				//slns = select_hulls_to_deform(ha, hb, opts)
 				if len(slns) != len(expects) {
 					fmt.Println(slns)

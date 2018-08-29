@@ -11,8 +11,8 @@ import (
 //find context_geom deformable hulls
 func SelectFeatureClass(options *opts.Opts, hullDB *hdb.Hdb,
 	hull *node.Node, cache *cmap.CacheMap) []*node.Node {
-
 	var n int
+	var h *node.Node
 	var inters, contig bool
 	var dict = make(map[[2]int]*node.Node, 0)
 	var ctxHulls = knn.FindNodeNeighbours(hullDB, hull, knn.EpsilonDist)
@@ -20,8 +20,7 @@ func SelectFeatureClass(options *opts.Opts, hullDB *hdb.Hdb,
 	// for each item in the context_geom list
 	for i := range ctxHulls {
 		n = 0
-		var h = ctxHulls[i]
-
+		h = ctxHulls[i]
 		//if cache has key -- continue
 		if cache.HasKey(cmap.CacheKey(hull, h)) {
 			continue
