@@ -55,12 +55,12 @@ func TestDeform(t *testing.T) {
 		var polyline = pln.CreatePolyline(coordinates)
 		var hulls []node.Node
 		for _, r := range ranges {
-			i, j := r[0], r[len(r)-1]
+			var i, j = r[0], r[len(r)-1]
 			if j == -1 {
 				j = n - 1
 			}
-			nr := rng.Range(i, j)
-			h := node.CreateNode(id, polyline.SubCoordinates(nr), nr, common.Geometry)
+			var nr = rng.Range(i, j)
+			var h  = node.CreateNode(id, polyline.SubCoordinates(nr), nr, common.Geometry, nil)
 			hulls = append(hulls, h)
 		}
 
@@ -94,13 +94,13 @@ func TestDeform(t *testing.T) {
 				return bln
 			}
 			for _, o := range wktDat {
-				ranges, q, expects, wkt := o.ranges, o.q, o.expects, o.wkt
-				coords := geom.NewLineStringFromWKT(wkt).Coordinates
-				hulls, hulldb := createHullsDbTest(ranges, coords)
+				var ranges, q, expects, wkt = o.ranges, o.q, o.expects, o.wkt
+				var coords = geom.NewLineStringFromWKT(wkt).Coordinates
+				var hulls, hulldb = createHullsDbTest(ranges, coords)
 
-				query := hulls[q]
+				var query = hulls[q]
 
-				slns := Select(cdp.Options(), hulldb, &query)
+				var slns = Select(cdp.Options(), hulldb, &query)
 				//slns = select_hulls_to_deform(ha, hb, opts)
 				if len(slns) != len(expects) {
 					fmt.Println(slns)
