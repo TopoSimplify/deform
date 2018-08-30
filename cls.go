@@ -7,6 +7,19 @@ import (
 	"github.com/TopoSimplify/hdb"
 )
 
+func optimizeNeighbours(hull *node.Node, neighbours []*node.Node) []*node.Node {
+	if hull.Instance.State().IsDirty(){
+		return neighbours
+	}
+	var others = make([]*node.Node, 0, len(neighbours))
+	for _, o := range neighbours {
+		if !isSame(hull.Instance, o.Instance){
+			others = append(others, o)
+		}
+	}
+	return others
+}
+
 //find context_geom deformable hulls
 func SelectFeatureClass(options *opts.Opts, hullDB *hdb.Hdb, hull *node.Node) []*node.Node {
 	var n int
@@ -14,6 +27,7 @@ func SelectFeatureClass(options *opts.Opts, hullDB *hdb.Hdb, hull *node.Node) []
 	var inters, contig bool
 	var dict = make(map[[2]int]*node.Node, 0)
 	var ctxHulls = knn.FindNodeNeighbours(hullDB, hull, knn.EpsilonDist)
+	ctxHulls = optimizeNeighbours(hull, ctxHulls)
 
 	// for each item in the context_geom list
 	for i := range ctxHulls {

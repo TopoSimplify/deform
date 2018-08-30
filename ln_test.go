@@ -15,14 +15,21 @@ import (
 	"github.com/TopoSimplify/hdb"
 	"github.com/intdxdt/iter"
 	"github.com/TopoSimplify/common"
+	"github.com/TopoSimplify/state"
 )
 
 type testDP struct {
 	id int
+
 }
 
 func (tdp *testDP) Id() int {
 	return tdp.id
+}
+
+func (tdp *testDP) State() *state.State {
+	var s  state.State
+	return &s
 }
 
 func (tdp *testDP) Options() *opts.Opts {
