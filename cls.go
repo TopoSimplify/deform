@@ -26,7 +26,7 @@ func SelectFeatureClass(options *opts.Opts, hullDB *hdb.Hdb, hull *node.Node) []
 	var h *node.Node
 	var inters, contig bool
 	var dict = make(map[[2]int]*node.Node, 0)
-	var ctxHulls = knn.FindNodeNeighbours(hullDB, hull, knn.EpsilonDist)
+	var ctxHulls = knn.NodeNeighbours(hullDB, hull, knn.EpsilonDist)
 	ctxHulls = optimizeNeighbours(hull, ctxHulls)
 
 	// for each item in the context_geom list
